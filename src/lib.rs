@@ -1,4 +1,4 @@
-use chrono::{Datelike, NaiveDate};
+use chrono::{DateTime, Datelike, Local, NaiveDate};
 
 const RATE100: f64 = 1.0_f64;
 const RATE103: f64 = 1.03_f64;
@@ -19,11 +19,14 @@ where
             let res = get_rate::<T>(date) * amount as f64;
             return res as i64;
         }
-        None => return amount,
+        None => {
+            let res = get_rate::<DateTime<Local>>(Local::now()) * amount as f64;
+            return res as i64;
+        }
     }
 }
 
-fn get_rate<T>(date: T) -> f64
+pub fn get_rate<T>(date: T) -> f64
 where
     T: Datelike,
 {
