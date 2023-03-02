@@ -1,3 +1,30 @@
+//! # vat_jp
+//!
+//! vat_jp calculates consumption tax (incl. sales tax, VAT, excise duty, etc.) in Japan.
+//!
+//! ## Usage
+//!
+//! With vat_jp, you can know the price including VAT and the VAT rate at any point in time.
+//!
+//! ```
+//! use chrono::{DateTime, Local, NaiveDate};
+//! use vat_jp;
+//!
+//! // To find out the current price including tax,
+//! // pass the amount as the first argument and `None` as the second argument.
+//! assert_eq!(110, vat_jp::amount_with_tax::<NaiveDate>(100, None));
+//! assert_eq!(
+//!     110,
+//!     vat_jp::amount_with_tax::<DateTime<Local>>(100, Some(Local::now()))
+//! );
+//! // When there was no VAT...
+//! let mut today = NaiveDate::from_ymd_opt(1989, 3, 31).unwrap();
+//! assert_eq!(100, vat_jp::amount_with_tax::<NaiveDate>(100, Some(today)));
+//!
+//! // VAT rate
+//! assert_eq!(1.1, vat_jp::get_rate::<DateTime<Local>>(Local::now()));
+//! ```
+//!
 use chrono::{DateTime, Datelike, Local, NaiveDate};
 
 const RATE100: f64 = 1.0_f64;
@@ -6,6 +33,23 @@ const RATE105: f64 = 1.05_f64;
 const RATE108: f64 = 1.08_f64;
 const RATE110: f64 = 1.1_f64;
 
+/// returns amount with tax
+///
+/// ## Example
+///
+/// ```
+/// use chrono::{DateTime, Local, NaiveDate};
+///
+/// assert_eq!(110, vat_jp::amount_with_tax::<NaiveDate>(100, None));
+/// assert_eq!(
+///     110,
+///     vat_jp::amount_with_tax::<DateTime<Local>>(100, Some(Local::now()))
+///     );
+///
+/// let mut today = NaiveDate::from_ymd_opt(1989, 3, 31).unwrap();  // 0% VAT
+/// assert_eq!(100, vat_jp::amount_with_tax::<NaiveDate>(100, Some(today)));
+///
+/// ```
 pub fn amount_with_tax<T>(amount: i64, today: Option<T>) -> i64
 where
     T: Datelike,
@@ -26,6 +70,16 @@ where
     }
 }
 
+/// returns VAT rate at any point in time
+///
+/// ## Example
+///
+/// ```
+/// use chrono::NaiveDate;
+///
+/// let mut today = NaiveDate::from_ymd_opt(1989, 3, 31).unwrap();
+/// assert_eq!(1.0, vat_jp::get_rate(today));
+/// ```
 pub fn get_rate<T>(date: T) -> f64
 where
     T: Datelike,

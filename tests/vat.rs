@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{DateTime, Local, NaiveDate};
 use vat_jp;
 
 #[test]
@@ -6,6 +6,11 @@ fn test_amout_with_tax() {
     let mut today = NaiveDate::from_ymd_opt(1989, 3, 31).unwrap();
 
     assert_eq!(110, vat_jp::amount_with_tax::<NaiveDate>(100, None));
+
+    assert_eq!(
+        110,
+        vat_jp::amount_with_tax::<DateTime<Local>>(100, Some(Local::now()))
+    );
 
     assert_eq!(100, vat_jp::amount_with_tax::<NaiveDate>(100, Some(today)));
     assert_eq!(

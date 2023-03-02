@@ -2,12 +2,23 @@
 name = "vat_jp"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+authors = ["Mao Nabeta <mao.nabeta@gmail.com>"]
+description = "vat_jp calculates consumption tax (incl. sales tax, VAT, excise duty, etc.) in Japan."
+repository = "https://github.com/nabetama/vat_jp/"
+keywords = ["tax", "japanese"]
+categories = ["Finanace"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 chrono = { version = "0.4.23" }
 
-
 [dev-dependencies]
-cargo-watch = { version = "8.4.0" }
+cargo-watch = "8.4.0"
+
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
