@@ -49,3 +49,43 @@ fn nd_from_ce(y: i32, m: u32, d: u32) -> i32 {
     let days = NaiveDate::from_ymd_opt(y, m, d).unwrap();
     days.num_days_from_ce()
 }
+#[cfg(test)]
+mod test {
+    use super::*;
+    use chrono::NaiveDate;
+
+    #[test]
+    fn test_rate() {
+        let mut today = NaiveDate::from_ymd_opt(1989, 3, 31).unwrap();
+        assert_eq!(RATE100, get_rate(today));
+
+        today = NaiveDate::from_ymd_opt(1989, 4, 1).unwrap();
+        assert_eq!(RATE103, get_rate(today));
+
+        today = NaiveDate::from_ymd_opt(1997, 3, 31).unwrap();
+        assert_eq!(RATE103, get_rate(today));
+
+        today = NaiveDate::from_ymd_opt(1997, 4, 1).unwrap();
+        assert_eq!(RATE105, get_rate(today));
+
+        today = NaiveDate::from_ymd_opt(2014, 3, 31).unwrap();
+        assert_eq!(RATE105, get_rate(today));
+
+        today = NaiveDate::from_ymd_opt(2014, 4, 1).unwrap();
+        assert_eq!(RATE108, get_rate(today));
+
+        today = NaiveDate::from_ymd_opt(2019, 9, 30).unwrap();
+        assert_eq!(RATE108, get_rate(today));
+
+        today = NaiveDate::from_ymd_opt(2019, 10, 1).unwrap();
+        assert_eq!(RATE110, get_rate(today));
+    }
+
+    #[test]
+    fn test_nd_from_ce() {
+        assert_eq!(-365, nd_from_ce(0, 1, 1));
+        assert_eq!(1, nd_from_ce(1, 1, 1));
+        assert_eq!(366, nd_from_ce(2, 1, 1));
+        assert_eq!(719_163, nd_from_ce(1970, 1, 1));
+    }
+}
