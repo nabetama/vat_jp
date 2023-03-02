@@ -7,7 +7,7 @@ authors = ["Mao Nabeta <mao.nabeta@gmail.com>"]
 description = "vat_jp calculates consumption tax (incl. sales tax, VAT, excise duty, etc.) in Japan."
 repository = "https://github.com/nabetama/vat_jp/"
 keywords = ["tax", "japanese"]
-categories = ["Finanace"]
+categories = ["finanace"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
