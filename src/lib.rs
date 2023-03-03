@@ -61,11 +61,11 @@ where
     match today {
         Some(date) => {
             let res = get_rate::<T>(date) * amount as f64;
-            return res as i64;
+            res as i64
         }
         None => {
             let res = get_rate::<DateTime<Local>>(Local::now()) * amount as f64;
-            return res as i64;
+            res as i64
         }
     }
 }
