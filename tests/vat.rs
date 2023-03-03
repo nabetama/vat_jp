@@ -115,7 +115,7 @@ fn test_amout_with_tax() {
 fn test_amout_with_tax_fraction() {
     #[derive(Debug)]
     struct TestCase {
-        excluded: i64,
+        input: i64,
         expected: i64,
     }
 
@@ -124,42 +124,42 @@ fn test_amout_with_tax_fraction() {
 
     let test_cases = [
         TestCase {
-            excluded: 0,
+            input: 0,
             expected: 0,
         },
         TestCase {
-            excluded: 1,
+            input: 1,
             expected: 1,
         },
         TestCase {
-            excluded: 5,
+            input: 5,
             expected: 5,
         },
         TestCase {
-            excluded: 6,
+            input: 6,
             expected: 6,
         },
         TestCase {
-            excluded: 10,
+            input: 10,
             expected: 10,
         },
         TestCase {
-            excluded: 13,
+            input: 13,
             expected: 14,
         },
         TestCase {
-            excluded: 20,
+            input: 20,
             expected: 21,
         },
         TestCase {
-            excluded: 29,
+            input: 29,
             expected: 31,
         },
     ];
     for tc in test_cases {
         assert_eq!(
             tc.expected,
-            vat_jp::amount_with_tax::<NaiveDate>(tc.excluded, Some(today))
+            vat_jp::amount_with_tax::<NaiveDate>(tc.input, Some(today))
         );
     }
 }
