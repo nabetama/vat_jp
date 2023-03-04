@@ -26,6 +26,7 @@
 //! ```
 //!
 use chrono::{DateTime, Datelike, Local, NaiveDate};
+use derive_builder::Builder;
 
 const RATE100: f64 = 1.0_f64;
 const RATE103: f64 = 1.03_f64;
@@ -66,6 +67,39 @@ where
         None => {
             let res = get_rate::<DateTime<Local>>(Local::now()) * amount as f64;
             res as i64
+        }
+    }
+}
+
+#[derive(Builder, PartialEq, Debug)]
+pub struct Vat<T, U> {
+    #[builder(setter(into))]
+    pub amount: i64,
+    #[builder(setter(into, strip_option), default)]
+    pub year: Option<T>,
+    #[builder(setter(into, strip_option), default)]
+    pub month: Option<U>,
+    #[builder(setter(into, strip_option), default)]
+    pub day: Option<U>,
+}
+
+impl<T, U> Vat<T, U> {
+    pub fn amount_with_tax(&self, today: Option<T>) -> i64
+    where
+        T: Datelike,
+    {
+        if self.amount < 0 {
+            return self.amount;
+        }
+        match today {
+            Some(date) => {
+                let res = get_rate::<T>(date) * self.amount as f64;
+                res as i64
+            }
+            None => {
+                let res = get_rate::<DateTime<Local>>(Local::now()) * self.amount as f64;
+                res as i64
+            }
         }
     }
 }

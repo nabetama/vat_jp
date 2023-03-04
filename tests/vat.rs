@@ -1,5 +1,4 @@
 use chrono::{DateTime, Local, NaiveDate};
-use vat_jp;
 
 #[test]
 fn test_amout_with_tax() {
@@ -162,4 +161,56 @@ fn test_amout_with_tax_fraction() {
             vat_jp::amount_with_tax::<NaiveDate>(tc.input, Some(today))
         );
     }
+}
+
+#[test]
+fn test_vat_builder_amount_with_tax() {
+    let mut vat_jp = vat_jp::VatBuilder::<i32, i32>::default()
+        .amount(100)
+        .build()
+        .unwrap();
+
+    assert_eq!(
+        vat_jp,
+        vat_jp::Vat {
+            amount: 100,
+            year: None,
+            month: None,
+            day: None
+        }
+    );
+
+    vat_jp = vat_jp::VatBuilder::<i32, i32>::default()
+        .amount(100)
+        .year(1999)
+        .build()
+        .unwrap();
+
+    assert_eq!(
+        vat_jp,
+        vat_jp::Vat {
+            amount: 100,
+            year: Some(1999),
+            month: None,
+            day: None
+        }
+    );
+
+    vat_jp = vat_jp::VatBuilder::<i32, i32>::default()
+        .amount(100)
+        .year(1999)
+        .month(12)
+        .day(31)
+        .build()
+        .unwrap();
+
+    assert_eq!(
+        vat_jp,
+        vat_jp::Vat {
+            amount: 100,
+            year: Some(1999),
+            month: Some(12),
+            day: Some(31)
+        }
+    );
 }
