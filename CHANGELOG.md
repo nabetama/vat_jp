@@ -18,22 +18,24 @@
  src/lib.rs   | 37 +++++++++++++++++++++++++++++++++++--
  tests/vat.rs | 20 ++++++++++----------
  3 file
+```
 
 ## v0.1.2
+
 [Full Changelog](https://github.com/nabetama/vat_jp/compare/v0.1.1...v0.1.2)
 
-* c7782d5 fixed a typo
+- c7782d5 fixed a typo
 
 ## v0.1.1
+
 [Full Changelog](https://github.com/nabetama/vat_jp/compare/2b6e78f68a79ed6df3cbdf9b15db864b82f638b2...v0.1.1)
 
-* dab8a39 bump version
-* 57b3027 update categories
-* 183fe8d Merge pull request #1 from nabetama/calc-tax
-* 069bfdd add docs
-* 2037b4e add README, LICENSE
-* 13a5421 Create build-test.yml
-* cf1af94 add test_amout_with_tax_with_fraction
-* e331ddc calculate amout with tax
-* 92de637 rate 1.10
-```
+- dab8a39 bump version
+- 57b3027 update categories
+- 183fe8d Merge pull request #1 from nabetama/calc-tax
+- 069bfdd add docs
+- 2037b4e add README, LICENSE
+- 13a5421 Create build-test.yml
+- cf1af94 add test_amout_with_tax_with_fraction
+- e331ddc calculate amout with tax
+- 92de637 rate 1.10
