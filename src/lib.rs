@@ -70,6 +70,34 @@ where
     }
 }
 
+/// returns amout without tax
+///
+/// **Warning**
+/// fractions of division are rounded up.
+///
+/// ## Example
+///
+/// ```
+/// use chrono::{DateTime, Local};
+///
+///
+/// fn test_amount_without_tax() {
+///     assert_eq!(13637, vat_jp::amount_without_tax::<DateTime<Local>>(15000, None));
+/// }
+/// ```
+pub fn amount_without_tax<T>(amount_with_tax: i64, today: Option<T>) -> i64
+where
+    T: Datelike,
+{
+    let tax_rate = match today {
+        Some(date) => get_rate(date),
+        None => get_rate(Local::now()),
+    };
+
+    let amount_without_tax = amount_with_tax as f64 / tax_rate;
+    amount_without_tax.ceil() as i64 // fractions of division are rounded up
+}
+
 /// returns VAT rate at any point in time
 ///
 /// ## Example
@@ -144,5 +172,10 @@ mod test {
         assert_eq!(1, nd_from_ce(1, 1, 1));
         assert_eq!(366, nd_from_ce(2, 1, 1));
         assert_eq!(719_163, nd_from_ce(1970, 1, 1));
+    }
+
+    #[test]
+    fn test_amount_without_tax() {
+        assert_eq!(13637, amount_without_tax::<DateTime<Local>>(15000, None));
     }
 }
